@@ -111,9 +111,8 @@ def init_apod_cache(parent_dir):
 
     # Determine the path of image cache DB
 
-    image_cache_db = os.path.join(get_script_dir(), 'APOD_image_cache')
-    db_path = os.path.join(image_cache_db, 'image_cache.db')
-    print(f'Image cache database: {db_path}')
+    image_cache_db = os.path.join(image_cache_dir, 'image_cache.db')
+    print(f'Image cache database: {image_cache_db}')
 
     # Create the DB if it does not already exist
 
