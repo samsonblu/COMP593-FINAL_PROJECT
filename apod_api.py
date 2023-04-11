@@ -5,11 +5,12 @@ import requests
 import sys
 
 KEY = 'aeKMT7dn7xRECWTcSO6M0LSyK8M7NOAAuQNHyK78'
-NASA_URL = 'https://api.nasa.gov/planetary/apod'
+NASA_URL = 'https://api.nasa.gov/planetary/apod?api_key='
+url = NASA_URL + KEY
 
 def main():
-    # TODO: Add code to test the functions in this module
-    get_apod_info(apod_date='today')
+    apod_info = get_apod_info(apod_date='2022-01-25')
+    get_apod_image_url(apod_info)
     return
 
 def get_apod_info(apod_date):
@@ -23,19 +24,22 @@ def get_apod_info(apod_date):
         dict: Dictionary of APOD info, if successful. None if unsuccessful
     """
 
-    num_params = len(sys.argv)
-    if num_params > 0:
-        return sys.argv[1]  
-    else:
-        print('Error: Missing Date.')
-
     params = {
-        'date': apod_date,
-        'thumbs': True,
-        'api_key' : 'DEMO_KEY', 
-           }
- 
-    return   
+        'date' : apod_date,
+        'thumbs' : True,
+    } 
+
+    # Send a get request to the APOD url
+    resp_msg = requests.get(url, params=params)
+
+    # Determine whether the GET request was successful
+    if resp_msg.ok:
+        print('Success.')
+        return resp_msg.json()
+    else:
+        print('Fail.')
+        print(f'Status code: {resp_msg.status_code} ({resp_msg.reason})')
+        return
 
 def get_apod_image_url(apod_info_dict):
     """Gets the URL of the APOD image from the dictionary of APOD information.
@@ -50,9 +54,11 @@ def get_apod_image_url(apod_info_dict):
         str: APOD image URL
     """
 
-    
-
-    return
+    # Determine the media type and its corresponding image link
+    if apod_info_dict['media_type'] == 'image':
+        print(apod_info_dict['hdurl'])
+    elif apod_info_dict['media_type'] == 'video':
+        print(apod_info_dict['thumbnail_url'])
 
 if __name__ == '__main__':
     main()
