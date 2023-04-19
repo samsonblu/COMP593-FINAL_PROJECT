@@ -56,9 +56,9 @@ def get_apod_image_url(apod_info_dict):
 
     # Determine the media type and its corresponding image link
     if apod_info_dict['media_type'] == 'image':
-        print(apod_info_dict['hdurl'])
+        return apod_info_dict['hdurl']
     elif apod_info_dict['media_type'] == 'video':
-        print(apod_info_dict['thumbnail_url'])
+        return apod_info_dict['thumbnail_url']
 
 if __name__ == '__main__':
     main()

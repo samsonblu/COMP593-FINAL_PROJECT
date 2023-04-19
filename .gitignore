@@ -1,2 +1,6 @@
 __pycache__/
 *.db
+*.jpg
+*.png
+*.gif
+!nasa.png
